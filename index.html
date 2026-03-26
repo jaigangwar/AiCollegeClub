@@ -6,150 +6,332 @@
 <title>Join the Club | AI College Club</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=Inter:wght@400;500;600&family=Instrument+Serif:ital@0;1&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&display=swap" rel="stylesheet"/>
-<script id="tailwind-config">
+<script>
   tailwind.config = {
     darkMode: "class",
     theme: {
       extend: {
-        colors: { "primary": "#ba9eff", "background": "#000000", "surface": "#0e0e0e" },
-        fontFamily: { "headline": ["Manrope"], "body": ["Inter"], "serif": ["Instrument Serif"] },
-        borderRadius: {"DEFAULT":"0.125rem","lg":"0.25rem","xl":"0.5rem","2xl":"1rem","3xl":"2.5rem","full":"9999px"},
+        colors: { "primary": "#ba9eff", "background": "#000000" },
+        fontFamily: { "headline": ["Manrope"], "body": ["Inter"] },
       },
     },
   }
 </script>
 <style>
-body{background-color:#000;color:#fff;}
-.material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24;}
-.hero-video-container{position:absolute;inset:0;overflow:hidden;z-index:0;}
-.hero-video{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) scale(1.2);min-width:100%;min-height:100%;object-fit:cover;opacity:0.5;}
-.glass-card{background:rgba(255,255,255,0.03);backdrop-filter:blur(24px);border:1px solid rgba(255,255,255,0.08);}
-.glow-overlay{position:absolute;top:215px;left:50%;transform:translateX(-50%);width:801px;height:384px;background:#000;filter:blur(77.5px);border-radius:9999px;z-index:1;opacity:0.8;}
-.form-input{width:100%;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:13px 16px;color:#fff;font-family:'Inter',sans-serif;font-size:14px;outline:none;transition:border-color 0.2s;margin-bottom:12px;-webkit-appearance:none;display:block;}
-.form-input::placeholder{color:rgba(255,255,255,0.3);}
-.form-input:focus{border-color:#ba9eff;box-shadow:0 0 0 3px rgba(186,158,255,0.1);}
-.form-input option{background:#1a1a1a;color:#fff;}
-#toast{display:none;position:fixed;bottom:30px;left:50%;transform:translateX(-50%);background:#ba9eff;color:#000;font-family:'Manrope',sans-serif;font-weight:700;font-size:14px;padding:14px 28px;border-radius:50px;z-index:9999;box-shadow:0 8px 32px rgba(186,158,255,0.5);}
+* { box-sizing: border-box; }
+body { background-color: #000; color: #fff; margin: 0; }
+.material-symbols-outlined { font-variation-settings: 'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24; }
+.hero-video-container { position: absolute; inset: 0; overflow: hidden; z-index: 0; }
+.hero-video { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%) scale(1.2); min-width: 100%; min-height: 100%; object-fit: cover; opacity: 0.45; }
+.glass-card { background: rgba(255,255,255,0.04); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); border: 1px solid rgba(255,255,255,0.1); }
+.glow-overlay { position: absolute; top: 200px; left: 50%; transform: translateX(-50%); width: 700px; height: 350px; background: #000; filter: blur(80px); border-radius: 9999px; z-index: 1; opacity: 0.75; }
+
+/* Form inputs - fully visible dark style */
+.fi {
+  display: block;
+  width: 100%;
+  background: rgba(255,255,255,0.07) !important;
+  border: 1px solid rgba(255,255,255,0.15) !important;
+  border-radius: 10px;
+  padding: 14px 16px;
+  color: #ffffff !important;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  margin-bottom: 12px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+.fi::placeholder { color: rgba(255,255,255,0.4) !important; }
+.fi:focus { border-color: #ba9eff !important; box-shadow: 0 0 0 3px rgba(186,158,255,0.15) !important; }
+.fi option { background: #1a1a1a; color: #fff; }
+select.fi { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='rgba(255,255,255,0.4)' d='M6 8L1 3h10z'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 16px center; padding-right: 40px; }
+
+/* Toast */
+#toast { display:none; position:fixed; bottom:30px; left:50%; transform:translateX(-50%); background:#ba9eff; color:#000; font-family:'Manrope',sans-serif; font-weight:700; font-size:14px; padding:14px 32px; border-radius:50px; z-index:9999; box-shadow:0 8px 32px rgba(186,158,255,0.5); white-space:nowrap; }
+
+/* Stat number glow on hover */
+.stat-item:hover .stat-num { color: #ba9eff; transition: color 0.3s; }
 </style>
 </head>
-<body class="font-body selection:bg-primary/30 selection:text-primary min-h-screen flex flex-col">
+
+<body class="font-body min-h-screen flex flex-col">
 <section class="relative min-h-screen w-full bg-background overflow-hidden flex flex-col">
-<div class="hero-video-container">
-<video autoplay class="hero-video" loop muted playsinline>
-<source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260215_121759_424f8e9c-d8bd-4974-9567-52709dfb6842.mp4" type="video/mp4"/>
-</video>
-</div>
-<div class="glow-overlay"></div>
-<nav class="relative z-50 w-full">
-<div class="max-w-[1440px] mx-auto px-6 md:px-[120px] h-[102px] flex justify-between items-center">
-<div class="flex items-center gap-[80px]">
-<div class="font-headline font-extrabold text-xl tracking-tighter text-white uppercase">AI COLLEGE CLUB</div>
-<div class="hidden lg:flex items-center gap-1 font-headline text-sm font-medium">
-<a class="px-2.5 py-1 text-white hover:text-white/80 transition-colors" href="#">Home</a>
-<a class="px-2.5 py-1 text-white/60 hover:text-white transition-colors" href="#">Features</a>
-</div>
-</div>
-<div class="flex items-center gap-3">
-<button class="px-4 py-2 bg-white text-black font-semibold text-sm rounded-lg hover:bg-white/90 transition-all border border-[#d4d4d4]">Sign In</button>
-<button class="px-4 py-2 bg-[#262626] text-white font-semibold text-sm rounded-lg hover:bg-[#333333] transition-all">Login</button>
-</div>
-</div>
-</nav>
-<main class="relative z-[2] flex-grow flex items-center justify-center px-6 md:px-[120px] py-12">
-<div class="max-w-[1440px] w-full grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
-<div class="flex flex-col space-y-8">
-<div class="max-w-xl">
-<h1 class="font-headline font-medium text-6xl md:text-[86px] leading-[1] text-white tracking-tight mb-6">Join the <br/><span class="text-primary">Modern</span> <br/>AI Club.</h1>
-<p class="font-headline text-lg text-white/60 max-w-md leading-relaxed">A community for AI enthusiasts to collaborate, learn, and build the future together.</p>
-</div>
-<div class="space-y-4 max-w-md">
-<div class="glass-card rounded-2xl p-6 flex gap-6 items-start group hover:bg-white/5 transition-colors">
-<span class="font-serif italic text-2xl text-white/40 group-hover:text-primary transition-colors">01</span>
-<div><h3 class="font-headline font-bold text-white text-sm uppercase tracking-wider mb-1">Member Benefits</h3><p class="text-xs text-white/40">Access to premium AI tools and exclusive resources.</p></div>
-</div>
-<div class="glass-card rounded-2xl p-6 flex gap-6 items-start group hover:bg-white/5 transition-colors">
-<span class="font-serif italic text-2xl text-white/40 group-hover:text-primary transition-colors">02</span>
-<div><h3 class="font-headline font-bold text-white text-sm uppercase tracking-wider mb-1">Global Community</h3><p class="text-xs text-white/40">Connect with top students and industry experts.</p></div>
-</div>
-</div>
-</div>
-<div class="flex justify-center lg:justify-end">
-<div class="w-full max-w-[480px] glass-card rounded-3xl p-10 md:p-12 flex flex-col items-center text-center">
-<div class="w-16 h-16 rounded-full bg-white/5 flex items-center justify-center mb-8">
-<span class="material-symbols-outlined text-white/40 text-3xl">person</span>
-</div>
-<h2 class="text-3xl font-headline font-bold text-white mb-3">Join the Club</h2>
-<p class="text-white/40 text-sm mb-8">Fill in your details to register.</p>
-<form id="regForm" style="width:100%;" onsubmit="submitForm(event)">
-<input class="form-input" type="text" id="f_name" placeholder="Full Name" required/>
-<input class="form-input" type="email" id="f_email" placeholder="Email Address" required/>
-<input class="form-input" type="text" id="f_college" placeholder="College / University Name" required/>
-<input class="form-input" type="text" id="f_branch" placeholder="Branch / Course (e.g. AIDS, CSE)" required/>
-<input class="form-input" type="tel" id="f_phone" placeholder="Phone Number" required/>
-<select class="form-input" id="f_year" required>
-<option value="" disabled selected>Select Year of Study</option>
-<option value="1st year">1st Year</option>
-<option value="2nd year">2nd Year</option>
-<option value="3rd year">3rd Year</option>
-<option value="4th year">4th Year</option>
-</select>
-<button type="submit" id="submitBtn" class="w-full bg-primary text-black font-headline font-bold py-4 rounded-xl flex items-center justify-center gap-3 hover:opacity-90 transition-all active:scale-[0.98] mt-2">🚀 Register Now</button>
-</form>
-<div id="successMsg" style="display:none;width:100%;">
-<div style="background:rgba(186,158,255,0.1);border:1px solid rgba(186,158,255,0.3);border-radius:16px;padding:32px 24px;text-align:center;">
-<div style="font-size:48px;margin-bottom:16px;">🎉</div>
-<h3 style="font-family:'Manrope',sans-serif;font-weight:700;font-size:20px;color:#ba9eff;margin-bottom:8px;">Welcome to AI College Club!</h3>
-<p style="font-size:13px;color:rgba(255,255,255,0.5);">Registration successful. We'll be in touch soon.</p>
-</div>
-</div>
-<p class="text-[10px] uppercase tracking-widest text-white/20 mt-6">Secure Registration • Data saved to Google Sheet</p>
-</div>
-</div>
-</div>
-</main>
-<div class="relative z-[2] w-full max-w-[1440px] mx-auto px-6 md:px-[120px] py-16 grid grid-cols-2 md:grid-cols-4 gap-8 border-t border-white/5">
-<div><span class="text-3xl font-headline font-bold text-white block">5,000+</span><span class="text-[10px] uppercase tracking-widest text-white/40 font-bold">Active Members</span></div>
-<div><span class="text-3xl font-headline font-bold text-white block">120+</span><span class="text-[10px] uppercase tracking-widest text-white/40 font-bold">AI Projects</span></div>
-<div><span class="text-3xl font-headline font-bold text-white block">45+</span><span class="text-[10px] uppercase tracking-widest text-white/40 font-bold">Workshops</span></div>
-<div><span class="text-3xl font-headline font-bold text-white block">12</span><span class="text-[10px] uppercase tracking-widest text-white/40 font-bold">Countries</span></div>
-</div>
-<footer class="relative z-[2] w-full bg-black/80 backdrop-blur-sm border-t border-white/5">
-<div class="max-w-[1440px] mx-auto px-6 md:px-[120px] py-10 flex flex-col md:flex-row justify-between items-center gap-6">
-<div class="flex flex-col items-center md:items-start">
-<div class="font-headline font-black text-white text-lg tracking-tighter uppercase mb-1">AI COLLEGE CLUB</div>
-<p class="text-[10px] uppercase tracking-widest text-white/30">© 2024 AI College Club. All Rights Reserved.</p>
-</div>
-<div class="flex flex-wrap justify-center gap-8">
-<a class="text-[10px] uppercase tracking-[0.2em] text-white/40 hover:text-white transition-colors" href="#">Privacy Policy</a>
-<a class="text-[10px] uppercase tracking-[0.2em] text-white/40 hover:text-white transition-colors" href="#">Terms</a>
-<a class="text-[10px] uppercase tracking-[0.2em] text-white/40 hover:text-white transition-colors" href="#">Guidelines</a>
-</div>
-</div>
-</footer>
+
+  <!-- Video Background -->
+  <div class="hero-video-container">
+    <video autoplay class="hero-video" loop muted playsinline>
+      <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260215_121759_424f8e9c-d8bd-4974-9567-52709dfb6842.mp4" type="video/mp4"/>
+    </video>
+  </div>
+  <div class="glow-overlay"></div>
+
+  <!-- NAV -->
+  <nav class="relative z-50 w-full border-b border-white/5">
+    <div class="max-w-[1400px] mx-auto px-6 md:px-20 h-[80px] flex justify-between items-center">
+      <!-- Logo -->
+      <div class="flex items-center gap-3">
+        <div class="w-8 h-8 rounded-lg bg-primary/20 flex items-center justify-center">
+          <span class="material-symbols-outlined text-primary" style="font-size:18px;">psychology</span>
+        </div>
+        <span class="font-headline font-extrabold text-base tracking-tight text-white uppercase">AI College Club</span>
+      </div>
+      <!-- Nav links -->
+      <div class="hidden md:flex items-center gap-6 font-headline text-sm font-medium">
+        <a class="text-white/90 hover:text-white transition-colors" href="#">Home</a>
+        <a class="text-white/50 hover:text-white transition-colors" href="#">Features</a>
+        <a class="text-white/50 hover:text-white transition-colors" href="#">About</a>
+      </div>
+      <!-- CTA -->
+      <a href="#register" class="px-5 py-2.5 bg-primary text-black font-headline font-bold text-sm rounded-lg hover:opacity-90 transition-all">
+        Register Now ↓
+      </a>
+    </div>
+  </nav>
+
+  <!-- MAIN CONTENT -->
+  <main class="relative z-[2] flex-grow flex items-center justify-center px-6 md:px-20 py-16" id="register">
+    <div class="max-w-[1400px] w-full grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+
+      <!-- LEFT -->
+      <div class="flex flex-col space-y-8">
+        <div>
+          <div class="inline-flex items-center gap-2 bg-primary/10 border border-primary/20 rounded-full px-4 py-1.5 mb-6">
+            <span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse inline-block"></span>
+            <span class="text-primary text-xs font-headline font-bold uppercase tracking-widest">Now Accepting Members</span>
+          </div>
+          <h1 class="font-headline font-bold text-[clamp(48px,6vw,82px)] leading-[1.02] text-white tracking-tight mb-6">
+            Join the<br/>
+            <span class="text-primary">Modern</span><br/>
+            AI Club.
+          </h1>
+          <p class="font-body text-lg text-white/55 max-w-md leading-relaxed">
+            A community for AI enthusiasts to collaborate, learn, and build the future together.
+          </p>
+        </div>
+
+        <!-- Benefit Cards -->
+        <div class="space-y-3 max-w-lg">
+          <div class="glass-card rounded-2xl p-5 flex gap-5 items-start hover:bg-white/[0.06] transition-colors cursor-default">
+            <div class="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0">
+              <span class="material-symbols-outlined text-primary" style="font-size:20px;">workspace_premium</span>
+            </div>
+            <div>
+              <h3 class="font-headline font-bold text-white text-sm uppercase tracking-wider mb-1">Member Benefits</h3>
+              <p class="text-xs text-white/45 leading-relaxed">Access to premium AI tools, exclusive resources and early project access.</p>
+            </div>
+          </div>
+          <div class="glass-card rounded-2xl p-5 flex gap-5 items-start hover:bg-white/[0.06] transition-colors cursor-default">
+            <div class="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0">
+              <span class="material-symbols-outlined text-primary" style="font-size:20px;">groups</span>
+            </div>
+            <div>
+              <h3 class="font-headline font-bold text-white text-sm uppercase tracking-wider mb-1">Global Community</h3>
+              <p class="text-xs text-white/45 leading-relaxed">Connect with top students and industry experts from 12+ countries.</p>
+            </div>
+          </div>
+          <div class="glass-card rounded-2xl p-5 flex gap-5 items-start hover:bg-white/[0.06] transition-colors cursor-default">
+            <div class="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0">
+              <span class="material-symbols-outlined text-primary" style="font-size:20px;">emoji_events</span>
+            </div>
+            <div>
+              <h3 class="font-headline font-bold text-white text-sm uppercase tracking-wider mb-1">Workshops & Hackathons</h3>
+              <p class="text-xs text-white/45 leading-relaxed">45+ live workshops, AI project showcases and inter-college competitions.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT: FORM CARD -->
+      <div class="flex justify-center lg:justify-end">
+        <div class="w-full max-w-[500px] glass-card rounded-3xl p-8 md:p-10">
+
+          <!-- Card Header -->
+          <div class="flex items-center gap-4 mb-8">
+            <div class="w-12 h-12 rounded-2xl bg-primary/15 flex items-center justify-center">
+              <span class="material-symbols-outlined text-primary" style="font-size:24px;">how_to_reg</span>
+            </div>
+            <div>
+              <h2 class="text-2xl font-headline font-bold text-white leading-tight">Join the Club</h2>
+              <p class="text-white/40 text-xs mt-0.5">Free membership • Takes 30 seconds</p>
+            </div>
+          </div>
+
+          <!-- FORM -->
+          <form id="regForm" onsubmit="submitForm(event)">
+
+            <div class="grid grid-cols-2 gap-3 mb-0">
+              <div>
+                <label style="display:block;font-size:11px;font-weight:600;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;font-family:'Manrope',sans-serif;">Full Name</label>
+                <input class="fi" type="text" id="f_name" placeholder="Jai Gangwar" required/>
+              </div>
+              <div>
+                <label style="display:block;font-size:11px;font-weight:600;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;font-family:'Manrope',sans-serif;">Email</label>
+                <input class="fi" type="email" id="f_email" placeholder="jai@email.com" required/>
+              </div>
+            </div>
+
+            <label style="display:block;font-size:11px;font-weight:600;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;font-family:'Manrope',sans-serif;">College / University</label>
+            <input class="fi" type="text" id="f_college" placeholder="e.g. RBMI, Bareilly" required/>
+
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label style="display:block;font-size:11px;font-weight:600;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;font-family:'Manrope',sans-serif;">Branch</label>
+                <input class="fi" type="text" id="f_branch" placeholder="AIDS / CSE / IT" required/>
+              </div>
+              <div>
+                <label style="display:block;font-size:11px;font-weight:600;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;font-family:'Manrope',sans-serif;">Phone</label>
+                <input class="fi" type="tel" id="f_phone" placeholder="+91 XXXXXXXXXX" required/>
+              </div>
+            </div>
+
+            <label style="display:block;font-size:11px;font-weight:600;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;font-family:'Manrope',sans-serif;">Year of Study</label>
+            <select class="fi" id="f_year" required>
+              <option value="" disabled selected>Select your year</option>
+              <option value="1st year">1st Year</option>
+              <option value="2nd year">2nd Year</option>
+              <option value="3rd year">3rd Year</option>
+              <option value="4th year">4th Year</option>
+            </select>
+
+            <button type="submit" id="submitBtn"
+              style="width:100%;background:#ba9eff;color:#000;font-family:'Manrope',sans-serif;font-weight:800;font-size:15px;padding:16px;border:none;border-radius:12px;cursor:pointer;transition:opacity 0.2s,transform 0.1s;display:flex;align-items:center;justify-content:center;gap:8px;margin-top:4px;">
+              🚀 Register for Free
+            </button>
+          </form>
+
+          <!-- Success State -->
+          <div id="successMsg" style="display:none;">
+            <div style="text-align:center;padding:32px 16px;">
+              <div style="width:72px;height:72px;background:rgba(186,158,255,0.15);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;font-size:36px;">🎉</div>
+              <h3 style="font-family:'Manrope',sans-serif;font-weight:800;font-size:22px;color:#ba9eff;margin-bottom:10px;">You're in!</h3>
+              <p style="font-size:14px;color:rgba(255,255,255,0.5);line-height:1.7;margin-bottom:24px;">Welcome to AI College Club. Your registration has been saved. We'll reach out soon!</p>
+              <div style="background:rgba(186,158,255,0.08);border:1px solid rgba(186,158,255,0.2);border-radius:12px;padding:16px;">
+                <p style="font-size:11px;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:1.5px;font-family:'Manrope',sans-serif;font-weight:600;">What's next?</p>
+                <p style="font-size:13px;color:rgba(255,255,255,0.6);margin-top:6px;">Check your email for confirmation and onboarding details.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Footer note -->
+          <p style="text-align:center;font-size:10px;text-transform:uppercase;letter-spacing:2px;color:rgba(255,255,255,0.2);margin-top:16px;font-family:'Manrope',sans-serif;">
+            🔒 Secure • Free Forever • No Spam
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- STATS -->
+  <div class="relative z-[2] w-full border-t border-white/5">
+    <div class="max-w-[1400px] mx-auto px-6 md:px-20 py-12 grid grid-cols-2 md:grid-cols-4 gap-8">
+      <div class="stat-item">
+        <div class="stat-num text-3xl font-headline font-bold text-white mb-1">5,000+</div>
+        <div class="text-[10px] uppercase tracking-widest text-white/35 font-bold">Active Members</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num text-3xl font-headline font-bold text-white mb-1">120+</div>
+        <div class="text-[10px] uppercase tracking-widest text-white/35 font-bold">AI Projects</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num text-3xl font-headline font-bold text-white mb-1">45+</div>
+        <div class="text-[10px] uppercase tracking-widest text-white/35 font-bold">Workshops</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num text-3xl font-headline font-bold text-white mb-1">12</div>
+        <div class="text-[10px] uppercase tracking-widest text-white/35 font-bold">Countries</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="relative z-[2] border-t border-white/5">
+    <div class="max-w-[1400px] mx-auto px-6 md:px-20 py-8 flex flex-col md:flex-row justify-between items-center gap-4">
+      <div class="flex items-center gap-3">
+        <div class="w-7 h-7 rounded-lg bg-primary/20 flex items-center justify-center">
+          <span class="material-symbols-outlined text-primary" style="font-size:16px;">psychology</span>
+        </div>
+        <div>
+          <div class="font-headline font-black text-white text-sm uppercase tracking-tight">AI College Club</div>
+          <div class="text-[9px] uppercase tracking-widest text-white/25">© 2024 All Rights Reserved</div>
+        </div>
+      </div>
+      <div class="flex gap-6">
+        <a class="text-[10px] uppercase tracking-[0.15em] text-white/35 hover:text-white transition-colors" href="#">Privacy</a>
+        <a class="text-[10px] uppercase tracking-[0.15em] text-white/35 hover:text-white transition-colors" href="#">Terms</a>
+        <a class="text-[10px] uppercase tracking-[0.15em] text-white/35 hover:text-white transition-colors" href="#">Contact</a>
+      </div>
+    </div>
+  </footer>
+
 </section>
-<iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
-<div id="toast">✅ Registered Successfully! Welcome aboard 🎉</div>
+
+<!-- Hidden iframe for silent Google Form submit -->
+<iframe name="hidden_iframe" style="display:none;"></iframe>
+
+<!-- Toast -->
+<div id="toast">✅ Registered Successfully! Welcome to AI College Club 🎉</div>
+
 <script>
-function submitForm(e){
-  e.preventDefault();
-  var name=document.getElementById('f_name').value;
-  var email=document.getElementById('f_email').value;
-  var college=document.getElementById('f_college').value;
-  var branch=document.getElementById('f_branch').value;
-  var phone=document.getElementById('f_phone').value;
-  var year=document.getElementById('f_year').value;
-  var FORM_URL='https://docs.google.com/forms/d/e/1FAIpQLSdC3JMoBsfupUXUp4LEkf7MHFYK9gA_UDqGRvn1W2QZFcr5mw/formResponse';
-  var hf=document.createElement('form');
-  hf.method='POST';hf.action=FORM_URL;hf.target='hidden_iframe';hf.style.display='none';
-  var fields={'entry.1865249093':name,'entry.47721056':email,'entry.1871604476':college,'entry.1900617316':branch,'entry.614599365':phone,'entry.1909434209':year};
-  for(var key in fields){var inp=document.createElement('input');inp.type='hidden';inp.name=key;inp.value=fields[key];hf.appendChild(inp);}
-  document.body.appendChild(hf);hf.submit();
-  setTimeout(function(){document.body.removeChild(hf);},3000);
-  document.getElementById('regForm').style.display='none';
-  document.getElementById('successMsg').style.display='block';
-  var toast=document.getElementById('toast');toast.style.display='block';
-  setTimeout(function(){toast.style.display='none';},5000);
-}
+  function submitForm(e) {
+    e.preventDefault();
+
+    var btn = document.getElementById('submitBtn');
+    btn.innerHTML = '⏳ Submitting...';
+    btn.style.opacity = '0.7';
+    btn.disabled = true;
+
+    var FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSdC3JMoBsfupUXUp4LEkf7MHFYK9gA_UDqGRvn1W2QZFcr5mw/formResponse';
+
+    var fields = {
+      'entry.1865249093': document.getElementById('f_name').value,
+      'entry.47721056':   document.getElementById('f_email').value,
+      'entry.1871604476': document.getElementById('f_college').value,
+      'entry.1900617316': document.getElementById('f_branch').value,
+      'entry.614599365':  document.getElementById('f_phone').value,
+      'entry.1909434209': document.getElementById('f_year').value
+    };
+
+    var hf = document.createElement('form');
+    hf.method = 'POST';
+    hf.action = FORM_URL;
+    hf.target = 'hidden_iframe';
+    hf.style.display = 'none';
+
+    for (var key in fields) {
+      var inp = document.createElement('input');
+      inp.type = 'hidden';
+      inp.name = key;
+      inp.value = fields[key];
+      hf.appendChild(inp);
+    }
+
+    document.body.appendChild(hf);
+    hf.submit();
+
+    setTimeout(function () {
+      try { document.body.removeChild(hf); } catch(e) {}
+    }, 3000);
+
+    // Show success after short delay
+    setTimeout(function () {
+      document.getElementById('regForm').style.display = 'none';
+      document.getElementById('successMsg').style.display = 'block';
+      var toast = document.getElementById('toast');
+      toast.style.display = 'block';
+      setTimeout(function () { toast.style.display = 'none'; }, 5000);
+    }, 800);
+  }
+
+  // Hover effect on submit button
+  var btn = document.getElementById('submitBtn');
+  btn.addEventListener('mouseover', function(){ this.style.opacity='0.88'; });
+  btn.addEventListener('mouseout', function(){ this.style.opacity='1'; });
+  btn.addEventListener('mousedown', function(){ this.style.transform='scale(0.98)'; });
+  btn.addEventListener('mouseup', function(){ this.style.transform='scale(1)'; });
 </script>
 </body>
 </html>
